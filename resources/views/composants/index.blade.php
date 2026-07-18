@@ -1,0 +1,62 @@
+@extends('layouts.app')
+
+@section('title', 'Composants')
+
+@section('content')
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="mb-0">Liste des composants</h4>
+    <a href="{{ route('composants.create') }}" class="btn btn-dark">
+        <i class="bi bi-plus-lg"></i> Ajouter
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Type</th>
+                    <th>État</th>
+                    <th>Machine</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($composants as $composant)
+                <tr>
+                    <td>{{ $composant->nom }}</td>
+                    <td>{{ $composant->type }}</td>
+                    <td>
+                        @php
+                            $badge = match($composant->etat) {
+                                'Neuf' => 'success',
+                                'Bon' => 'primary',
+                                'Usé' => 'warning',
+                                'Défectueux' => 'danger',
+                                default => 'secondary',
+                            };
+                        @endphp
+                        <span class="badge text-bg-{{ $badge }}">{{ $composant->etat }}</span>
+                    </td>
+                    <td>{{ $composant->machine?->numero_serie ?? '— en stock —' }}</td>
+                    <td class="text-end">
+                        <a href="{{ route('composants.edit', $composant) }}" class="btn btn-sm btn-outline-secondary">Modifier</a>
+                        <form action="{{ route('composants.destroy', $composant) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer ce composant ?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+                @endforeach
+                @if ($composants->isEmpty())
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-4">Aucun composant pour le moment.</td>
+                </tr>
+                @endif
+            </tbody>
+        </table>
+    </div>
+</div>
+@endsection
