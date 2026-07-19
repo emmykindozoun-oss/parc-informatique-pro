@@ -45,4 +45,4 @@ Se connecter avec le compte administrateur créé par le seeder (voir `database/
 
 ## Auteur
 
-Développé par Marie-Caren Emmy KINDOZOUN.
+Développé par Marie-Caren Emmy KINDOZOUN.# déploiement Railway
