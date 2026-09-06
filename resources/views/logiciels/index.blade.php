@@ -49,17 +49,21 @@
                         </td>
                         <td>{{ $logiciel->machine?->numero_serie ?? '—' }}</td>
                         <td class="text-end">
-                            <a href="{{ route('logiciels.edit', $logiciel) }}" class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-pencil"></i>
-                            </a>
-                            <form action="{{ route('logiciels.destroy', $logiciel) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer ce logiciel ?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-outline-danger">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </form>
-                        </td>
+    @if(auth()->user()->isAdmin())
+        <a href="{{ route('logiciels.edit', $logiciel) }}" class="btn btn-sm btn-outline-primary">
+            <i class="bi bi-pencil"></i>
+        </a>
+        <form action="{{ route('logiciels.destroy', $logiciel) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer ce logiciel ?');">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-sm btn-outline-danger">
+                <i class="bi bi-trash"></i>
+            </button>
+        </form>
+    @else
+        <span class="text-muted small">—</span>
+    @endif
+</td>
                     </tr>
                 @empty
                     <tr>

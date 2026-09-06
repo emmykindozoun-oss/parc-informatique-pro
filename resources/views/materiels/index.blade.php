@@ -43,13 +43,17 @@
                     <td>{{ $materiel->quantite }}</td>
                     <td>{{ $materiel->emplacement?->nom ?? '—' }}</td>
                     <td class="text-end">
-                        <a href="{{ route('materiels.edit', $materiel) }}" class="btn btn-sm btn-outline-secondary">Modifier</a>
-                        <form action="{{ route('materiels.destroy', $materiel) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer ce matériel ?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
-                        </form>
-                    </td>
+    @if(auth()->user()->isAdmin())
+        <a href="{{ route('materiels.edit', $materiel) }}" class="btn btn-sm btn-outline-secondary">Modifier</a>
+        <form action="{{ route('materiels.destroy', $materiel) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer ce matériel ?');">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
+        </form>
+    @else
+        <span class="text-muted small">—</span>
+    @endif
+</td>
                 </tr>
                 @endforeach
                 @if ($materiels->isEmpty())

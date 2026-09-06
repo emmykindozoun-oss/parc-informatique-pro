@@ -10,17 +10,31 @@ use App\Http\Controllers\MaterielController;
 use App\Http\Controllers\LogicielController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.attempt');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
-   Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::resource('emplacements', EmplacementController::class);
-    Route::resource('modeles', ModeleController::class);
-Route::resource('utilisateurs', UtilisateurParcController::class)->parameters(['utilisateurs' => 'utilisateurParc']);    Route::resource('machines', MachineController::class);
-    Route::resource('composants', ComposantController::class);
-    Route::resource('materiels', MaterielController::class);
-    Route::resource('logiciels', LogicielController::class);
+    // Consultation + ajout : accessible à tout compte connecté (admin ou utilisateur simple)
+    Route::resource('emplacements', EmplacementController::class)->only(['index', 'create', 'store', 'show']);
+    Route::resource('modeles', ModeleController::class)->only(['index', 'create', 'store', 'show']);
+    Route::resource('utilisateurs', UtilisateurParcController::class)->parameters(['utilisateurs' => 'utilisateurParc'])->only(['index', 'create', 'store', 'show']);
+    Route::resource('machines', MachineController::class)->only(['index', 'create', 'store', 'show']);
+    Route::resource('composants', ComposantController::class)->only(['index', 'create', 'store', 'show']);
+    Route::resource('materiels', MaterielController::class)->only(['index', 'create', 'store', 'show']);
+    Route::resource('logiciels', LogicielController::class)->only(['index', 'create', 'store', 'show']);
+
+    // Modification + suppression : admin uniquement
+    Route::middleware('admin')->group(function () {
+        Route::resource('emplacements', EmplacementController::class)->only(['edit', 'update', 'destroy']);
+        Route::resource('modeles', ModeleController::class)->only(['edit', 'update', 'destroy']);
+        Route::resource('utilisateurs', UtilisateurParcController::class)->parameters(['utilisateurs' => 'utilisateurParc'])->only(['edit', 'update', 'destroy']);
+        Route::resource('machines', MachineController::class)->only(['edit', 'update', 'destroy']);
+        Route::resource('composants', ComposantController::class)->only(['edit', 'update', 'destroy']);
+        Route::resource('materiels', MaterielController::class)->only(['edit', 'update', 'destroy']);
+        Route::resource('logiciels', LogicielController::class)->only(['edit', 'update', 'destroy']);
+    });
 });

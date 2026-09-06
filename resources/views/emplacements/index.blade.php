@@ -25,14 +25,18 @@
                 <tr>
                     <td>{{ $emplacement->nom }}</td>
                     <td>{{ $emplacement->description }}</td>
-                    <td class="text-end">
-                        <a href="{{ route('emplacements.edit', $emplacement) }}" class="btn btn-sm btn-outline-secondary">Modifier</a>
-                        <form action="{{ route('emplacements.destroy', $emplacement) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer cet emplacement ?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
-                        </form>
-                    </td>
+                   <td class="text-end">
+    @if(auth()->user()->isAdmin())
+        <a href="{{ route('emplacements.edit', $emplacement) }}" class="btn btn-sm btn-outline-secondary">Modifier</a>
+        <form action="{{ route('emplacements.destroy', $emplacement) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer cet emplacement ?');">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
+        </form>
+    @else
+        <span class="text-muted small">—</span>
+    @endif
+</td>
                 </tr>
                 @endforeach
                 @if ($emplacements->isEmpty())

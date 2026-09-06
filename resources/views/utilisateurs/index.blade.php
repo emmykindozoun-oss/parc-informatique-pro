@@ -31,14 +31,18 @@
                     <td>{{ $utilisateur->email }}</td>
                     <td>{{ $utilisateur->indicatif }} {{ $utilisateur->telephone }}</td>
                     <td>{{ $utilisateur->fonction }}</td>
-                    <td class="text-end">
-                        <a href="{{ route('utilisateurs.edit', $utilisateur) }}" class="btn btn-sm btn-outline-secondary">Modifier</a>
-                        <form action="{{ route('utilisateurs.destroy', $utilisateur) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer cet utilisateur ?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
-                        </form>
-                    </td>
+                   <td class="text-end">
+    @if(auth()->user()->isAdmin())
+        <a href="{{ route('utilisateurs.edit', $utilisateur) }}" class="btn btn-sm btn-outline-secondary">Modifier</a>
+        <form action="{{ route('utilisateurs.destroy', $utilisateur) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer cet utilisateur ?');">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
+        </form>
+    @else
+        <span class="text-muted small">—</span>
+    @endif
+</td>
                 </tr>
                 @endforeach
                 @if ($utilisateurs->isEmpty())

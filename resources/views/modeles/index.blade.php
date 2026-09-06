@@ -27,14 +27,18 @@
                     <td>{{ $modele->nom }}</td>
                     <td>{{ $modele->marque }}</td>
                     <td>{{ $modele->type }}</td>
-                    <td class="text-end">
-                        <a href="{{ route('modeles.edit', $modele) }}" class="btn btn-sm btn-outline-secondary">Modifier</a>
-                        <form action="{{ route('modeles.destroy', $modele) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer ce modèle ?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
-                        </form>
-                    </td>
+                   <td class="text-end">
+    @if(auth()->user()->isAdmin())
+        <a href="{{ route('modeles.edit', $modele) }}" class="btn btn-sm btn-outline-secondary">Modifier</a>
+        <form action="{{ route('modeles.destroy', $modele) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer ce modèle ?');">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
+        </form>
+    @else
+        <span class="text-muted small">—</span>
+    @endif
+</td>
                 </tr>
                 @endforeach
                 @if ($modeles->isEmpty())

@@ -10,10 +10,13 @@ class AdminSeeder extends Seeder
 {
     public function run(): void
     {
-        User::create([
-            'name' => 'Admin',
-            'email' => 'admin@parcinfo.com',
-            'password' => Hash::make('motdepasse123'),
-        ]);
+        User::updateOrCreate(
+            ['email' => 'admin@parcinfo.com'],
+            [
+                'name' => 'Admin',
+                'password' => Hash::make('motdepasse123'),
+                'role' => 'admin',
+            ]
+        );
     }
 }

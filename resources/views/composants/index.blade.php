@@ -41,12 +41,16 @@
                     </td>
                     <td>{{ $composant->machine?->numero_serie ?? '— en stock —' }}</td>
                     <td class="text-end">
-                        <a href="{{ route('composants.edit', $composant) }}" class="btn btn-sm btn-outline-secondary">Modifier</a>
-                        <form action="{{ route('composants.destroy', $composant) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer ce composant ?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
-                        </form>
+                        @if(auth()->user()->isAdmin())
+                            <a href="{{ route('composants.edit', $composant) }}" class="btn btn-sm btn-outline-secondary">Modifier</a>
+                            <form action="{{ route('composants.destroy', $composant) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer ce composant ?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
+                            </form>
+                        @else
+                            <span class="text-muted small">—</span>
+                        @endif
                     </td>
                 </tr>
                 @endforeach
