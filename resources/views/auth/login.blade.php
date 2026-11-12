@@ -46,6 +46,15 @@
                 </div>
                 <button type="submit" class="btn btn-dark w-100">Se connecter</button>
             </form>
+
+            <hr class="my-4">
+
+            <form action="{{ route('demo.login') }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-outline-secondary w-100">
+                    <i class="bi bi-play-circle me-1"></i> Accès Démo (Connexion en 1 clic)
+                </button>
+            </form>
         </div>
     </div>
 </body>
