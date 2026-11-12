@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use App\Http\Controllers\EmplacementController;
 use App\Http\Controllers\ModeleController;
 use App\Http\Controllers\UtilisateurParcController;
@@ -14,6 +16,19 @@ use App\Http\Controllers\DashboardController;
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.attempt');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Connexion automatique en 1 clic pour les visiteurs
+Route::post('/demo-login', function () {
+    $demoUser = User::where('email', 'demo@parc-info.com')->first();
+
+    if ($demoUser) {
+        Auth::login($demoUser);
+        request()->session()->regenerate();
+        return redirect()->route('dashboard');
+    }
+
+    return back()->withErrors(['email' => 'Le compte de démonstration est introuvable.']);
+})->name('demo.login');
 
 Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
