@@ -3,7 +3,11 @@
 Application web de gestion de parc informatique développée avec Laravel. Elle permet de centraliser le suivi des emplacements, machines, composants, matériels, logiciels et utilisateurs d'une organisation.
 
 ## Fonctionnalités
+## Démo en ligne
+🔗 https://parc-informatique-pro.onrender.com
 
+Cliquez sur « Accès Démo » pour vous connecter en un clic.
+Le premier chargement peut prendre environ une minute.
 - Authentification administrateur (connexion / déconnexion sécurisées)
 - Tableau de bord avec statistiques en temps réel et alertes de licences arrivant à expiration
 - Gestion complète (création, consultation, modification, suppression) de 7 modules :
